@@ -1,0 +1,9 @@
+cryptography
+pyOpenSSL
+certifi
+BeautifulSoup
+requests
+threading
+time
+re
+argparse
