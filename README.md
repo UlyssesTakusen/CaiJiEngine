@@ -1,6 +1,6 @@
 # CaiJiEngine
 
-> CaiJiEngine基于Python3的URL采集工具，支持使用百度，必应，谷歌搜索引擎进行URL采集。
+> CaiJiEngine是一款基于Python3的URL采集工具，支持使用百度，必应，谷歌搜索引擎进行URL采集。
 >
 > 可打印格式：URL、域名、协议+域名。
 >
