@@ -34,8 +34,8 @@ class Spider(object):
                 trick_url = raw['href']
                 response = requests.get(trick_url, headers=self.heads, timeout=(5), verify=False)
                 self.origin_urls.append(response.url)
-            except requests.exceptions.ConnectionError:
-                requests.status_code = "Connection refused"
+            except (requests.exceptions.RequestException, ValueError):
+                pass
 
     def Baidu_multi_thread(self):
         self.threads = []
@@ -64,8 +64,8 @@ class Spider(object):
                 trick_url = raw['href']
                 response = requests.get(trick_url, headers=self.heads, timeout=(5), verify=False)
                 self.origin_urls.append(response.url)
-            except requests.exceptions.ConnectionError:
-                requests.status_code = "Connection refused"
+            except (requests.exceptions.RequestException, ValueError):
+                pass
 
     def Bing_multi_thread(self):
         self.threads = []
@@ -93,10 +93,10 @@ class Spider(object):
         for raw in raw_url:
             try:
                 trick_url = raw['href']
-                response = requests.get(trick_url, headers=self.heads, timeout=(20), verify=False)
+                response = requests.get(trick_url, headers=self.heads, timeout=(10), verify=False)
                 self.origin_urls.append(response.url)
-            except requests.exceptions.ConnectionError:
-                requests.status_code = "Connection refused"
+            except (requests.exceptions.RequestException, ValueError):
+                pass
 
     def Google_multi_thread(self):
         self.threads = []
@@ -161,7 +161,7 @@ def main():
     parser.add_argument("-P","--print",choices=["url","domain","domainpro"],help="Print as follows: [url], [domain], [domainpro] (default:domainpro]", default="domainpro")
     parser.add_argument("-C","--counts",help="Number of pages found (default:5)" ,type=int ,default=5)
     parser.add_argument("-O","--output",help="Output file",required=False)
-    parser.add_argument("-V", "--version", action='version',version='v1.0')
+    parser.add_argument("-V", "--version", action='version',version='v1.1')
 
     args = parser.parse_args()
 
