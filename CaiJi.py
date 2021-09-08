@@ -8,12 +8,14 @@ class Spider(object):
     keywords = ""
     heads = ""
     counts = 10
+    length = 0
     origin_urls = []
     urls = []
     domains = []
     domainsPro = []
     page_urls = []
     threads = []
+    detail = False
 
     def __init__(self,keywords,heads):
         self.keywords = keywords
@@ -34,6 +36,8 @@ class Spider(object):
                 trick_url = raw['href']
                 response = requests.get(trick_url, headers=self.heads, timeout=(5), verify=False)
                 self.origin_urls.append(response.url)
+                if self.detail:
+                    print("爬取成功\t",response.url+"\t",re.findall(r"<title.*?>(.+?)</title>", str(response.content.decode('utf-8'))))
             except (requests.exceptions.RequestException, ValueError):
                 pass
 
@@ -64,6 +68,8 @@ class Spider(object):
                 trick_url = raw['href']
                 response = requests.get(trick_url, headers=self.heads, timeout=(5), verify=False)
                 self.origin_urls.append(response.url)
+                if self.detail:
+                    print("爬取成功\t",response.url+"\t",re.findall(r"<title.*?>(.+?)</title>", str(response.content.decode('utf-8'))))
             except (requests.exceptions.RequestException, ValueError):
                 pass
 
@@ -89,12 +95,13 @@ class Spider(object):
         soup = BeautifulSoup(r.content,'html.parser',from_encoding="utf-8")
         raw_url = soup.find_all(name='a',attrs={'target':"_blank",'class':None})
 
-
         for raw in raw_url:
             try:
                 trick_url = raw['href']
                 response = requests.get(trick_url, headers=self.heads, timeout=(10), verify=False)
                 self.origin_urls.append(response.url)
+                if self.detail:
+                    print("爬取成功\t",response.url+"\t",re.findall(r"<title.*?>(.+?)</title>", str(response.content.decode('utf-8'))))
             except (requests.exceptions.RequestException, ValueError):
                 pass
 
@@ -113,6 +120,7 @@ class Spider(object):
     # 通过URL形式输出
     def GetUrls(self):
         self.urls = list(set(self.origin_urls))
+        self.length = len(self.urls)
         for url in self.urls:
             print(url)
 
@@ -124,6 +132,7 @@ class Spider(object):
             try:
                 origin_domains.append(re.sub('^https?://','',re.findall('https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+',url)[0]))
                 self.domains = list(set(origin_domains))
+                self.length = len(self.domains)
             except IndexError:
                 pass
         for domain in self.domains:
@@ -138,6 +147,7 @@ class Spider(object):
             try:
                 origin_domainsPro.append(re.findall('https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+',url)[0])
                 self.domainsPro = list(set(origin_domainsPro))
+                self.length = len(self.domainsPro)
             except IndexError:
                 pass
         for domainPro in self.domainsPro:
@@ -160,14 +170,18 @@ def main():
     parser.add_argument("-K","--keywords",help="Enter the keywords you want to query",required=True)
     parser.add_argument("-P","--print",choices=["url","domain","domainpro"],help="Print as follows: [url], [domain], [domainpro] (default:domainpro)", default="domainpro")
     parser.add_argument("-C","--counts",help="Number of pages found (default:5)" ,type=int ,default=5)
+    parser.add_argument("-d","--detail",help="View crawling details",action="store_true")
     parser.add_argument("-O","--output",help="Output file",required=False)
-    parser.add_argument("-V", "--version", action='version',version='v1.1')
+    parser.add_argument("-V", "--version", action='version',version='v1.2')
 
     args = parser.parse_args()
 
     if args.keywords:
         keywords = args.keywords
         spider = Spider(keywords,heads)
+
+    if args.detail:
+        spider.detail = True
 
     if args.counts:
         spider.counts = args.counts*10
@@ -200,11 +214,14 @@ def main():
             f.writelines(str.join(spider.domains))
         if args.print == 'domainpro':
             f.writelines(str.join(spider.domainsPro))
+
         f.close()
-        print("\n已保存结果为："+args.output)
+        print("\n已保存结果为：", args.output)
+    print("\n结果条数：", spider.length)
 
 if __name__ == "__main__":
     start = time.time()
     main()
     end = time.time()
-    print("\n总共花费时间：", end - start, "s")
+
+    print("总共花费时间：", end - start, "s")
