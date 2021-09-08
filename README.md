@@ -20,7 +20,7 @@ optional arguments:
   -K KEYWORDS, --keywords KEYWORDS
                         Enter the keywords you want to query
   -P {url,domain,domainpro}, --print {url,domain,domainpro}
-                        Print as follows: [url], [domain], [domainpro] (default:domainpro]
+                        Print as follows: [url], [domain], [domainpro] (default:domainpro)
   -C COUNTS, --counts COUNTS
                         Number of pages found (default:5)
   -O OUTPUT, --output OUTPUT
