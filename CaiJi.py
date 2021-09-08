@@ -158,7 +158,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-E","--engine",help="Use the following search engines to collect: [Baidu], [Bing], [Google] (default:Baidu)", default="Baidu")
     parser.add_argument("-K","--keywords",help="Enter the keywords you want to query",required=True)
-    parser.add_argument("-P","--print",choices=["url","domain","domainpro"],help="Print as follows: [url], [domain], [domainpro] (default:domainpro]", default="domainpro")
+    parser.add_argument("-P","--print",choices=["url","domain","domainpro"],help="Print as follows: [url], [domain], [domainpro] (default:domainpro)", default="domainpro")
     parser.add_argument("-C","--counts",help="Number of pages found (default:5)" ,type=int ,default=5)
     parser.add_argument("-O","--output",help="Output file",required=False)
     parser.add_argument("-V", "--version", action='version',version='v1.1')
