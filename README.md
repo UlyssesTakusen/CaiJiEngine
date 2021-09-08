@@ -11,7 +11,7 @@
 ### Usage
 
 ```
-usage: CaiJi.py [-h] [-E ENGINE] -K KEYWORDS [-P {url,domain,domainpro}] [-C COUNTS] [-O OUTPUT] [-V]
+usage: CaiJi.py [-h] [-E ENGINE] -K KEYWORDS [-P {url,domain,domainpro}] [-C COUNTS] [-d] [-O OUTPUT] [-V]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -23,9 +23,11 @@ optional arguments:
                         Print as follows: [url], [domain], [domainpro] (default:domainpro)
   -C COUNTS, --counts COUNTS
                         Number of pages found (default:5)
+  -d, --detail          View crawling details
   -O OUTPUT, --output OUTPUT
                         Output file
   -V, --version         show program's version number and exit
+
 ```
 
 
@@ -46,7 +48,7 @@ python3 CaiJi.py -h
 ### 基本使用
 
 ```
-python3 CaiJi.py -K intitle:后台登录 -P url 
+python3 CaiJi.py -K intitle:后台登录 -P url -d
 python3 CaiJi.py -K site:baidu.com -E Bing,Baidu -O baidu.csv
 ```
 
